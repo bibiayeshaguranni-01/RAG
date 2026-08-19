@@ -161,11 +161,7 @@ def answer_question(question):
 def main():
     st.set_page_config(page_title="Chat with PDF (Local Embeddings RAG)")
 
-    key_error = validate_google_api_key()
-    if key_error:
-        st.error(key_error)
-        st.info('Use this format in .env: GOOGLE_API_KEY="AIza..."')
-        st.stop()
+    
     st.header("📄 Chat with PDF using RAG (Local Embeddings)")
 
     question = st.text_input("Ask a question from the uploaded PDFs")

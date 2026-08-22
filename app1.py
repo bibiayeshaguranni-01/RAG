@@ -152,7 +152,13 @@ def answer_question(question):
     )
 
     response = llm.invoke(final_prompt)
-    return response.content
+    # Extract only text
+    if hasattr(response, 'content'):
+        if isinstance(response.content, list):
+            # For Gemini it returns list like [{"type": "text", "text": "..."}]
+            return response.content[0]["text"] if isinstance(response.content[0], dict) else response.content[0].text
+        return response.content
+    return str(response)
 
 
 # --------------------------------------------------
@@ -170,7 +176,7 @@ def main():
         try:
             answer = answer_question(question)
             st.subheader("Answer")
-            st.write(answer)
+            st.markdown(answer)
         except Exception as exc:
             st.error(f"Unable to generate answer: {exc}")
 
